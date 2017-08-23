@@ -1,11 +1,14 @@
 import Vue from 'vue';
 import App from './App.vue';
-import VueSocketio from 'vue-socket.io'
+import VueSocketio from 'vue-socket.io';
+import wysiwyg from 'vue-wysiwyg'
+
 
 import store from './store'
 
-// Vue.use(VueSocketio, '192.168.0.27:3000');
-Vue.use(VueSocketio, '//localhost:3000')
+// import "vue-wysiwyg/dist/vueWysiwyg.css"
+Vue.use(wysiwyg, {})
+Vue.use(VueSocketio, 'http://localhost:3000');
 
 // 
 new Vue({
