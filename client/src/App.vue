@@ -18,66 +18,27 @@
 									<span class="name">{{ item.user }}</span>
 								</div>
 								<div class="col-sm-10">
-									<span class="message">{{ item.message }}</span>
+									<span class="message" v-html="item.message"></span>
 								</div>
 							</div>
 						</div>
 						<form v-if="joined" @submit.prevent="send">
 							<textarea id="message-textarea" @keydown="inputHandler" maxlength="140" type="text" placeholder="Enter message..." v-model="message"></textarea>
-							<button class="btn btn-default">Send Message</button>
+							<div class="text-center">
+								<button class="btn btn-primary btn-lg" type="button" @click="leave">Leave Chat</button>
+								<button class="btn btn-primary btn-lg" type="button" @click="send">Submit</button>
+								<button class="btn btn-primary btn-lg" type="button" @click="sendImg">Submit-Img</button>
+								<button class="btn btn-primary btn-lg" type="button" @click="sendLink">Submit-Link</button>
+							</div>
 						</form>
 						<div class="text-center">
 							<button class="btn btn-primary btn-lg" type="button" @click="leave">Leave Room</button>
-							<button class="btn btn-primary btn-lg" type="button" @click="clearMessages">Clear Messages</button> =======
-							<div>
-								<div v-if="!joined" class="text-center">
-									<form>
-										<div class="form-group">
-											<input type="text" max="12" class="form-control input-lg text-center" placeholder="Name" v-model="name">
-										</div>
-										<button class="btn btn-primary btn-lg" type="button" @click="join">Join Chat</button>
-									</form>
-								</div>
-								<div v-if="joined">
-									<div class="chat">
-										<div class="row">
-											<div v-for="item in messages">
-
-												<div class="col-sm-2 text-right">
-													<span class="name" v-html="item.user"></span>
-												</div>
-												<div class="col-sm-10">
-													<span class="message" v-html="item.message"></span>
-												</div>
-											</div>
-											<!-- <div v-for="image in images">
-												<span v-html="image"></span>
-											</div> -->
-										</div>
-										<div class="col-xs-4">
-											<sidebar></sidebar>
-										</div>
-									</div>
-									<!-- <input type="text" v-model="message" placeholder="message">
-			<button type="button" @click="send">Submit</button> -->
-									<div class="text-center">
-										<form>
-											<div class="form-group">
-												<input type="text" max="12" class="form-control input-lg text-center" placeholder="Message" v-model="message">
-											</div>
-										</form>
-										<!-- <wysiwyg v-model="myHTML" /> -->
-									</div>
-									<div class="text-center">
-										<button class="btn btn-primary btn-lg" type="button" @click="leave">Leave Chat</button>
-										<button class="btn btn-primary btn-lg" type="button" @click="send">Submit</button>
-										<button class="btn btn-primary btn-lg" type="button" @click="sendImg">Submit-Img</button>
-										<button class="btn btn-primary btn-lg" type="button" @click="sendLink">Submit-Link</button> >>>>>>> 98648c31711608b51ae0d5a7cc1e8f8f4891dc10
-									</div>
-								</div>
-							</div>
+							<button class="btn btn-primary btn-lg" type="button" @click="clearMessages">Clear Messages</button>
 						</div>
 					</div>
+				</div>
+				<div class="col-xs-4">
+					<sidebar></sidebar>
 				</div>
 			</div>
 		</div>

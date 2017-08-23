@@ -16,7 +16,7 @@ var rooms = {
 		guests: 0
 
 	},
-	"Shooting the Breeze": {
+	"Shooting the breeze": {
 		users: {},
 		guests: 0
 	},
