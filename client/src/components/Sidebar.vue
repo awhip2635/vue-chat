@@ -47,14 +47,12 @@
 				return Object.keys(state.users);
 			}
 		}),
-		socket: {
-			// joinedRoom(room) {
-			// 	// if (room == this.$store.state.currentRoom) {
-			// 		console.log('joined room')
-
-			// 		this.$store.dispatch('joinedRoom')
-			// 	// }
-			// }
+		sockets: {
+			joinedRoom(payload) {
+				// if (room == this.$store.state.currentRoom) {
+				this.$store.dispatch('joinedRoom', payload)
+				// }
+			},
 		}
 	}
 

@@ -4,11 +4,11 @@
 			<div class="row">
 				<div class="col-xs-8">
 					<div v-if="currentRoom && !joined" class="text-center">
-						<form @submit.prevent="join">
+						<form @submit.prevent="login">
 							<div class="form-group">
 								<input type="text" maxlength="12" class="form-control input-lg text-center" placeholder="Name" v-model="name">
 							</div>
-							<button class="btn btn-primary btn-lg">Join Chat</button>
+							<button class="btn btn-primary btn-lg">login Chat</button>
 						</form>
 					</div>
 					<div v-if="currentRoom">
@@ -81,10 +81,10 @@
 					this.send();
 				}
 			},
-			join() {
+			login() {
 				if (this.name.trim()) {
 					this.$store.dispatch('setJoined', true);
-					this.$socket.emit('join', this.name.trim());
+					this.$socket.emit('login', this.name.trim());
 				}
 				// this.name = '';
 			},
@@ -117,8 +117,8 @@
 			}
 		},
 		sockets: {
-			join(name) {
-				var data = { user: name, message: 'Has joined the chat.' };
+			loggedIn(name) {
+				var data = { user: name, message: 'Shed their guest status.' };
 				this.$store.dispatch('addMessage', data);
 			},
 			left(name) {
@@ -126,14 +126,7 @@
 				this.$store.dispatch('addMessage', data);
 			},
 			message(data) {
-				console.log(data)
 				this.$store.dispatch('addMessage', data);
-			},
-			joinedRoom(payload) {
-				// if (room == this.$store.state.currentRoom) {
-				this.$store.dispatch('joinedRoom', payload)
-				console.log(payload)
-				// }
 			},
 			image: function (img) {
 				this.$store.dispatch('addImage', img);

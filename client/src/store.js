@@ -35,11 +35,9 @@ const mutations = {
 	},
 	addImage(state, payload) {
 		state.messages.push({user: payload.user, message: `<img src="${payload.message}">`});
-		// console.log(state.messages)
 	},
 	addLink(state, payload) {
 		state.messages.push({user: payload.user, message: `<a href="${payload.message}" target="_blank">${payload.message}</a>`});
-		// console.log(state.messages)
 	}
 	
 };
@@ -56,8 +54,6 @@ const actions = {
 	},
 	joinedRoom({ commit, dispatch }, payload) {
 		commit('setCurrentRoom', payload.room);
-		console.log(payload)
-		
 		commit('addMessage', {user: (payload.user ? payload.user: "Guest"), message: "has joined the room"})
 		commit('setUsers', payload.users)
 	},

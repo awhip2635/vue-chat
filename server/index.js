@@ -26,37 +26,40 @@ var rooms = {
 	}
 }
 
-io.on('connection', function (socket) {
+function checkForDuplicateUser(user, room) {
+	var users = rooms[room].users
+	if (users[user]) {
+		var num = 1
+		var newUser = user + num
+		while (users[newUser]) {
+			num++
+			var newUser = user + num
+		}
+		users[newUser] = newUser
+		user = newUser
+	} else {
+		users[user] = user
+	}
 
+	return user;
+}
+
+io.on('connection', function (socket) {
 	socket.on('joinRoom', function (room) {
 		if (room) {
-			// console.log(socket.user)
 			socket.join(room, function () {
-				// console.log(socket.user)
 			});
+			if (socket.room)
+				delete rooms[socket.room].users[socket.user]
+			// io.to(socket.room).emit('leftRoom', socket.user);
 			socket.room = room;
-			io.to(room).emit('joinedRoom', { room: room });
+			io.to(room).emit('joinedRoom', { room: room, user: socket.user, users: rooms[socket.room].users });
 		}
 	});
-	socket.on('join', function (user) {
+	socket.on('login', function (user) {
 		if (user) {
-			var users = rooms[socket.room].users
-			if (users[user]) {
-
-				var num = 1
-				var newUser = user + num
-				while (users[newUser]) {
-					num++
-					var newUser = user + num
-				}
-				users[newUser] = newUser
-				user = newUser
-			} else {
-				users[user] = user
-			}
-			socket.user = user
-			console.log(user)
-			io.to(socket.room).emit('joinedRoom', { room: socket.room, user: user, users: users })
+			socket.user = checkForDuplicateUser(user, socket.room)
+			io.to(socket.room).emit('loggedIn', user)
 		}
 	})
 
