@@ -6,7 +6,8 @@ Vue.use(Vuex);
 const state = {
 	joined: false,
 	name: '',
-	messages: []
+	messages: [],
+	images: ['<img src="//placehold.it/200x200">']
 };
 
 const mutations = {
@@ -15,6 +16,17 @@ const mutations = {
 	},
 	addMessage(state, payload) {
 		state.messages.push(payload);
+	},
+	addImage(state, payload) {
+		state.messages.push({user: payload.user, message: `<img src="${payload.message}">`});
+		// console.log(state.messages)
+	},
+	addLink(state, payload) {
+		state.messages.push({user: payload.user, message: `<a href="${payload.message}" target="_blank">${payload.message}</a>`});
+		// console.log(state.messages)
+	},
+	clearMessages(state) {
+		state.messages = []
 	}
 };
 
@@ -24,6 +36,15 @@ const actions = {
 	},
 	addMessage({ commit, state }, payload) {
 		commit('addMessage', payload);
+	},
+	addImage({ commit, state }, payload) {
+		commit('addImage', payload);
+	},
+	addLink({ commit, state }, payload) {
+		commit('addLink', payload);
+	},
+	clearMessages({ commit, state }) {
+		commit('clearMessages')
 	}
 };
 
@@ -38,5 +59,5 @@ export default new Vuex.Store({
 	mutations,
 	actions,
 	getters,
-    strict: true
+	strict: true
 });
