@@ -1,26 +1,40 @@
 <template>
-	<div>
-		<div v-if="!joined" class="text-center">
-			<form>
-				<div class="form-group">
-					<input type="text" max="12" class="form-control input-lg text-center" placeholder="Name" v-model="name">
-				</div>
-				<button class="btn btn-primary btn-lg" type="button" @click="join">Join Chat</button>
-			</form>
-		</div>
-		<div v-if="joined">
-			<div class="chat">
-				<div class="row" v-for="item in messages">
-					<div class="col-sm-2 text-right">
-						<span class="name">{{ item.user }}</span>
+	<div id="app">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-8">
+					<div v-if="currentRoom && !joined" class="text-center">
+						<form @submit.prevent="join">
+							<div class="form-group">
+								<input type="text" maxlength="12" class="form-control input-lg text-center" placeholder="Name" v-model="name">
+							</div>
+							<button class="btn btn-primary btn-lg">Join Chat</button>
+						</form>
 					</div>
-					<div class="col-sm-10">
-						<span class="message">{{ item.message }}</span>
+					<div v-if="currentRoom">
+						<div class="chat">
+							<div class="row" v-for="item in messages">
+								<div class="col-sm-2 text-right">
+									<span class="name">{{ item.user }}</span>
+								</div>
+								<div class="col-sm-10">
+									<span class="message">{{ item.message }}</span>
+								</div>
+							</div>
+						</div>
+						<form v-if="joined" @submit.prevent="send">
+							<textarea id="message-textarea" @keydown="inputHandler" maxlength="140" type="text" placeholder="Enter message..." v-model="message"></textarea>
+							<button class="btn btn-default">Send Message</button>
+						</form>
+						<div class="text-center">
+							<button class="btn btn-primary btn-lg" type="button" @click="leave">Leave Room</button>
+							<button class="btn btn-primary btn-lg" type="button" @click="clearMessages">Clear Messages</button>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="text-center">
-				<button class="btn btn-primary btn-lg" type="button" @click="leave">Leave Chat</button>
+				<div class="col-xs-4">
+					<sidebar></sidebar>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -28,12 +42,17 @@
 
 <script>
 	import { mapState } from 'vuex';
+	import sidebar from './components/Sidebar.vue';
 
 	export default {
 		name: 'app',
-		data: function () {
+		components: {
+			sidebar
+		},
+		data() {
 			return {
-				name: ''
+				name: '',
+				message: ''
 			}
 		},
 		computed: mapState({
@@ -42,38 +61,70 @@
 			},
 			messages(state) {
 				return state.messages;
+			},
+			currentRoom(state) {
+				return state.currentRoom;
 			}
 		}),
 		methods: {
-			join: function () {
-				if (this.name) {
+			inputHandler(e) {
+				if ((e.keyCode == 13 || e.keyCode == 10) && e.ctrlKey) {
+					this.send();
+				}
+			},
+			join() {
+				if (this.name.trim()) {
 					this.$store.dispatch('setJoined', true);
-					this.$socket.emit('join', this.name);
+					this.$socket.emit('join', this.name.trim());
+				}
+				// this.name = '';
+			},
+			leave(user) {
+				// this.$store.dispatch('setJoined', false);
+				this.$store.dispatch('leftRoom', user ? user : 'Guest');
+				this.$socket.emit('leaveRoom');
+				this.clearMessages();
+			},
+			send() {
+				if (this.message.trim()) {
+					this.$socket.emit('message', this.message.trim());
+					this.message = '';
 				}
 			},
-			leave: function () {
-
-			},
-			send: function (message) {
-				if (message) {
-					this.$socket.emit('message', message);
-				}
+			clearMessages() {
+				this.$store.dispatch('clearMessages');
 			}
 		},
 		sockets: {
-			user: function (name) {
+			join(name) {
 				var data = { user: name, message: 'Has joined the chat.' };
 				this.$store.dispatch('addMessage', data);
 			},
-			message: function (data) {
+			left(name) {
+				var data = { user: name, message: 'Has left the chat.' };
 				this.$store.dispatch('addMessage', data);
+			},
+			message(data) {
+				console.log(data)
+				this.$store.dispatch('addMessage', data);
+			},
+			joinedRoom(payload) {
+				// if (room == this.$store.state.currentRoom) {
+					this.$store.dispatch('joinedRoom', payload)
+					console.log(payload)
+				// }
 			}
+
 		}
 	}
 
 </script>
-
 <style>
+	.action {
+		cursor: pointer;
+	}
+</style>
+<style scoped>
 	#app {
 		font-family: 'Avenir', Helvetica, Arial, sans-serif;
 		-webkit-font-smoothing: antialiased;
@@ -107,6 +158,9 @@
 		border-radius: 6px;
 		padding: 10px;
 		margin-bottom: 10px;
+		max-height: 500px;
+		overflow-y: auto;
+		overflow-x: hidden;
 	}
 
 	.name {
@@ -120,5 +174,15 @@
 		background: #E0EDFF;
 		padding: 5px 12px;
 		font-size: 15px;
+	}
+
+	.row {
+		margin-bottom: 15px;
+	}
+
+	#message-textarea {
+		width: 80%;
+		max-width: 100%;
+		max-height: 100px;
 	}
 </style>

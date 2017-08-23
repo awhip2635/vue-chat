@@ -10,23 +10,70 @@ server.listen(port, function () {
 	console.log('Server listening at port %d', port);
 });
 
+var rooms = {
+	"BCW":{
+		users:{},
+		guests: 0
+
+	},
+	"Shooting the Breeze": {
+		users: {},
+		guests: 0
+	},
+	"Chat Room 3": {
+		users: {},
+		guests: 0
+	}
+}
+
 io.on('connection', function (socket) {
-
-	socket.join('BCW', function () {
-		
+	
+	socket.on('joinRoom', function (room) {
+		if (room) {
+			// console.log(socket.user)
+			socket.join(room, function () {
+				// console.log(socket.user)
+			});
+			socket.room = room;
+			io.to(room).emit('joinedRoom', {room: room});
+		}
 	});
+	socket.on('join', function (user){
+		if(user){
+			var users = rooms[socket.room].users
+			if(users[user]){
+				
+				var num= 1
+				var newUser = user + num
+				while (users[newUser]) {
+					num ++
+					var newUser = user + num
+				}
+				users[newUser] = newUser
+				user= newUser
+			}else{
+				users[user]= user
+			}
+			socket.user = user
+			console.log(user)
+			io.to(socket.room).emit('joinedRoom', {room: socket.room, user: user, users: users})
+		}
+	})
 
-	socket.on('join', function (name) {
-		if (name) {
-			socket.user = name;
-			io.to('BCW').emit('user', name);
-		}	
-	});
+	socket.on('leaveRoom', () => {
+		io.to(socket.room).emit('left', socket.user ? socket.user : 'Guest');
+		socket.room = '';
+	})
+
+	socket.on('disconnect', reason => {
+		io.to(socket.room).emit('left', socket.user);
+		socket.user = '';
+	})
 
 	socket.on('message', function (text) {
 		if (text) {
-			io.to('BCW').emit('message', { user: socket.user, message: text });
-		}	
+			io.to(socket.room).emit('message', { user: socket.user, message: text });
+		}
 	});
 
 });
