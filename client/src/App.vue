@@ -122,7 +122,7 @@
 				this.$store.dispatch('setUsers', { users: payload.users, guests: payload.guests })
 			},
 			left(payload) {
-				var data = { user: payload.user, message: 'Has left the chat.' };
+				var data = { user: payload.user ? payload.user : 'Guest', message: 'Has left the chat.' };
 				this.$store.dispatch('addMessage', data);
 				this.$store.dispatch('setUsers', { users: payload.users, guests: payload.guests })
 			},

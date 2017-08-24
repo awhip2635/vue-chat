@@ -57,7 +57,7 @@ const actions = {
 		commit('clearMessages');
 	},
 	joinedRoom({ commit, dispatch }, payload) {
-		commit('setCurrentRoom', payload.room);
+		// commit('setCurrentRoom', payload.room);
 		commit('addMessage', {user: (payload.user ? payload.user: "Guest"), message: "has joined the room"})
 		commit('setUsers', payload.users)
 		commit('setGuests', payload.guests)
