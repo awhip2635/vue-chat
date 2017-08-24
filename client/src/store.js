@@ -10,7 +10,8 @@ const state = {
 	rooms: ['BCW', 'Shooting the breeze'],
 	currentRoom: '',
 	users: {},
-	images: ['<img src="//placehold.it/200x200">']
+	images: ['<img src="//placehold.it/200x200">'],
+	guests: 0
 };
 
 const mutations = {
@@ -38,6 +39,9 @@ const mutations = {
 	},
 	addLink(state, payload) {
 		state.messages.push({user: payload.user, message: `<a href="${payload.message}" target="_blank">${payload.message}</a>`});
+	},
+	setGuests(state, guests) {
+		state.guests = guests;
 	}
 	
 };
@@ -56,6 +60,7 @@ const actions = {
 		commit('setCurrentRoom', payload.room);
 		commit('addMessage', {user: (payload.user ? payload.user: "Guest"), message: "has joined the room"})
 		commit('setUsers', payload.users)
+		commit('setGuests', payload.guests)
 	},
 	leftRoom({ commit, dispatch }, user) {
 		commit('leftRoom');
@@ -67,6 +72,10 @@ const actions = {
 	addLink({ commit, state }, payload) {
 		commit('addLink', payload);
 	},
+	setUsers({commit, dispatch}, payload) {
+		commit('setUsers', payload.users)
+		commit('setGuests', payload.guests)
+	}
 };
 
 const getters = {

@@ -8,7 +8,7 @@
 							<div class="form-group">
 								<input type="text" maxlength="12" class="form-control input-lg text-center" placeholder="Name" v-model="name">
 							</div>
-							<button class="btn btn-primary btn-lg">login Chat</button>
+							<button class="btn btn-primary btn-lg">Login Chat</button>
 						</form>
 					</div>
 					<div v-if="currentRoom">
@@ -86,7 +86,6 @@
 					this.$store.dispatch('setJoined', true);
 					this.$socket.emit('login', this.name.trim());
 				}
-				// this.name = '';
 			},
 			leave(user) {
 				// this.$store.dispatch('setJoined', false);
@@ -117,13 +116,15 @@
 			}
 		},
 		sockets: {
-			loggedIn(name) {
-				var data = { user: name, message: 'Shed their guest status.' };
+			loggedIn(payload) {
+				var data = { user: payload.user, message: 'Shed their guest status.' };
 				this.$store.dispatch('addMessage', data);
+				this.$store.dispatch('setUsers', { users: payload.users, guests: payload.guests })
 			},
-			left(name) {
-				var data = { user: name, message: 'Has left the chat.' };
+			left(payload) {
+				var data = { user: payload.user, message: 'Has left the chat.' };
 				this.$store.dispatch('addMessage', data);
+				this.$store.dispatch('setUsers', { users: payload.users, guests: payload.guests })
 			},
 			message(data) {
 				this.$store.dispatch('addMessage', data);
@@ -134,7 +135,6 @@
 			link: function (url) {
 				this.$store.dispatch('addLink', url);
 			}
-
 		}
 	}
 

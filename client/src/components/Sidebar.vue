@@ -4,8 +4,11 @@
 			<h3>Current Room:</h3>
 			<h4>{{currentRoom || 'none'}}</h4>
 			<br>
-			<div v-if="currentRoom" v-for="user in users">
-				<span>{{user}}</span>
+			<div v-if="currentRoom">
+				<div v-for="user in users">
+					<span>{{user}}</span>
+				</div>
+				<span>{{guests}} Guests</span>
 			</div>
 		</div>
 		<div id="availableRooms">
@@ -28,9 +31,10 @@
 		},
 		methods: {
 			joinRoom(room) {
-				if(room!= this.$store.state.currentRoom){
-				this.$socket.emit('joinRoom', room);
-				this.clearMessages()}
+				if (room != this.$store.state.currentRoom) {
+					this.$socket.emit('joinRoom', room);
+					this.clearMessages()				
+}
 			},
 			clearMessages() {
 				this.$store.dispatch('clearMessages');
@@ -45,6 +49,9 @@
 			},
 			users(state) {
 				return Object.keys(state.users);
+			},
+			guests(state) {
+				return state.guests;
 			}
 		}),
 		sockets: {

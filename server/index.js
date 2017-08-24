@@ -51,53 +51,54 @@ io.on('connection', function (socket) {
 			});
 			if (socket.room)
 				delete rooms[socket.room].users[socket.user]
-			// io.to(socket.room).emit('leftRoom', socket.user);
+			io.to(socket.room).emit('left', socket.user);
 			socket.room = room;
-			io.to(room).emit('joinedRoom', { room: room, user: socket.user, users: rooms[socket.room].users });
+			if (socket.user)
+				socket.user = checkForDuplicateUser(socket.user, socket.room)
+			else
+				rooms[socket.room].guests++;
+			io.to(room).emit('joinedRoom', { room: room, user: socket.user, users: rooms[socket.room].users, guests: rooms[socket.room].guests });
 		}
 	});
+
 	socket.on('login', function (user) {
 		if (user) {
+			rooms[socket.room].guests--;
 			socket.user = checkForDuplicateUser(user, socket.room)
-			io.to(socket.room).emit('loggedIn', user)
+			io.to(socket.room).emit('loggedIn', { user: socket.user, users: rooms[socket.room].users, guests: rooms[socket.room].guests });
 		}
 	})
 
 	socket.on('leaveRoom', () => {
+		delete rooms[socket.room].users[socket.user]
 		io.to(socket.room).emit('left', socket.user ? socket.user : 'Guest');
 		socket.room = '';
 	})
 
+	// When this is called, socket.room and socket.user have already been blown away
 	socket.on('disconnect', reason => {
-		io.to(socket.room).emit('left', socket.user);
-		socket.user = '';
-	})
-
-	socket.on('leave', function () {
-		io.to('BCW'.emit('left', socket.user))
+		if (socket.user && socket.room) {
+			delete rooms[socket.room].users[socket.user]
+			io.to(socket.room).emit('left', socket.user);
+			socket.user = '';
+		}
 	})
 
 	socket.on('message', function (text) {
 		if (text) {
 			io.to(socket.room).emit('message', { user: socket.user, message: text });
-
 		}
 	});
 
 	socket.on('image', function (img) {
 		if (img) {
-			io.to('BCW').emit('image', { user: socket.user, message: img });
+			io.to(socket.room).emit('image', { user: socket.user, message: img });
 		}
 	});
 
 	socket.on('link', function (url) {
 		if (url) {
-			io.to('BCW').emit('link', { user: socket.user, message: url });
+			io.to(socket.room).emit('link', { user: socket.user, message: url });
 		}
 	});
-
-	socket.on('disconnect', (reason) => {
-		io.to('BCW').emit('left', socket.user)
-	})
-
 });
