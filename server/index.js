@@ -49,9 +49,9 @@ io.on('connection', function (socket) {
         if (room) {
             socket.join(room, function () {
             });
-            if (socket.room)
-                delete rooms[socket.room].users[socket.user]
-            io.to(socket.room).emit('left', socket.user);
+            // if (socket.room)
+            //     delete rooms[socket.room].users[socket.user]
+            // io.to(socket.room).emit('left', socket.user);
             socket.room = room;
             if (socket.user)
                 socket.user = checkForDuplicateUser(socket.user, socket.room)
