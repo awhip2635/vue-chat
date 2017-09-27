@@ -15,6 +15,6 @@ Vue.use(VueSocketio, '//just-something.herokuapp.com');
 new Vue({
 	el: '#app',
 	store,
-	// components: { App },
+	components: { App },
 	render: h => h(App)
 })
