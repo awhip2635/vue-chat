@@ -1,22 +1,37 @@
 <template>
-    <div class="sidebar panel panel-default">
-        <div id="currentRoom" class="panel panel-default">
-            <h3>Current Room:</h3>
-            <h4>{{currentRoom || 'none'}}</h4>
-            <br>
-            <div v-if="currentRoom">
-                <div v-for="user in users">
-                    <span>{{user}}</span>
+    <div class="sidebar">
+        <h1>Sockets Chatroom!</h1>
+        <div class="row">
+            <div class="col-xs-4 col-sm-4 col-md-4">
+            </div>
+            <div id="currentRoom" class="col-xs-4 col-sm-4 col-md-4 panel">
+                <h3>Current Room:</h3>
+                <h4>{{currentRoom || 'none'}}</h4>
+                <br>
+                <div v-if="currentRoom">
+                    <div v-for="user in users">
+                        <span>{{user}}</span>
+                    </div>
+                    <span>{{guests}} Guests</span>
                 </div>
-                <span>{{guests}} Guests</span>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4">
+
             </div>
         </div>
-        <div id="availableRooms">
-            <div v-for="room in rooms">
-                <span class="action" @click="joinRoom(room)">{{room}}</span>
+        <div class="row">
+<div class="col-xs-4 col-sm-4 col-md-4"></div>
+            <div class="panel col-xs-4 col-sm-4 col-md-4" id="availableRooms">
+                <h4>Available Rooms:</h4>
+                <div v-for="room in rooms">
+                    <span class="action" @click="joinRoom(room)">{{room}}</span>
+                </div>
             </div>
+            <div class="col-xs-4 col-sm-4 col-md-4"></div>
         </div>
     </div>
+
+
 </template>
 
 <script>
@@ -67,3 +82,17 @@
     }
 
 </script>
+<style>
+    .panel {
+        background-color: whitesmoke;
+        width: 600px;
+        text-align: center;
+    }
+#currentRoom {
+    margin-left: -90px;
+}
+#availableRooms {
+    margin-left: -90px;
+}
+    
+</style>

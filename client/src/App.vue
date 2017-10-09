@@ -1,15 +1,25 @@
 <template>
 	<div id="app">
 		<div class="container">
+			
+			
+				<sidebar></sidebar>
+			
 			<div class="row">
-				<div class="col-xs-8">
+				
 					<div v-if="currentRoom && !joined" class="text-center">
-						<form @submit.prevent="login">
-							<div class="form-group">
-								<input type="text" maxlength="12" class="form-control input-lg text-center" placeholder="Name" v-model="name">
-							</div>
-							<button class="btn btn-primary btn-lg">Login Chat</button>
-						</form>
+						<div class="row">
+							<form @submit.prevent="login">
+
+								<div class="form-group col-xs-6">
+									<input type="text" maxlength="12" class="form-control input-lg text-center" placeholder="Name" v-model="name">
+
+
+									<button class="btn btn-primary btn-lg">Login Chat</button>
+								</div>
+
+							</form>
+						</div>
 					</div>
 					<div v-if="currentRoom">
 						<div class="chat">
@@ -37,11 +47,9 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-xs-4">
-					<sidebar></sidebar>
-				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 </template>
 
@@ -183,6 +191,7 @@
 		overflow-x: hidden;
 		max-width: 75vw;
 		overflow-y: auto;
+		margin-left: 120px;
 	}
 
 	.name {
