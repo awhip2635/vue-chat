@@ -3,23 +3,27 @@
 		<div class="container">
 			
 			
-				<sidebar></sidebar>
+			<sidebar></sidebar>
+				<div class="row">
+					<form @submit.prevent="login">
+						<div class="col-xs-3 col-sm-3 col-md-3">
+						</div>
+						<div class="form-group col-xs-6">
+							<input type="text" maxlength="12" class="form-control input-lg text-center" placeholder="Name" v-model="name">
+	
+	
+							<button class="btn btn-primary btn-lg">Login Chat</button>
+						</div>
+						<div class="col-xs-3 col-sm-3 col-md-3">
+	
+						</div>
+	
+					</form>
+				</div>
 			
 			<div class="row">
 				
 					<div v-if="currentRoom && !joined" class="text-center">
-						<div class="row">
-							<form @submit.prevent="login">
-
-								<div class="form-group col-xs-6">
-									<input type="text" maxlength="12" class="form-control input-lg text-center" placeholder="Name" v-model="name">
-
-
-									<button class="btn btn-primary btn-lg">Login Chat</button>
-								</div>
-
-							</form>
-						</div>
 					</div>
 					<div v-if="currentRoom">
 						<div class="chat">
@@ -152,7 +156,8 @@
 		cursor: pointer;
 	}
 </style>
-<style scoped>
+<style >
+	@import url('https://fonts.googleapis.com/css?family=Kanit');
 	#app {
 		font-family: 'Avenir', Helvetica, Arial, sans-serif;
 		-webkit-font-smoothing: antialiased;
@@ -160,6 +165,7 @@
 		text-align: center;
 		color: #2c3e50;
 		margin-top: 60px;
+		font-family: 'Kanit', sans-serif;
 	}
 
 	h1,

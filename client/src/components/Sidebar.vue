@@ -2,9 +2,9 @@
     <div class="sidebar">
         <h1>Sockets Chatroom!</h1>
         <div class="row">
-            <div class="col-xs-4 col-sm-4 col-md-4">
+            <div class="col-xs-3 col-sm-3 col-md-3">
             </div>
-            <div id="currentRoom" class="col-xs-4 col-sm-4 col-md-4 panel">
+            <div id="currentRoom" class="col-xs-6 col-sm-6 col-md-6 panel">
                 <h3>Current Room:</h3>
                 <h4>{{currentRoom || 'none'}}</h4>
                 <br>
@@ -15,19 +15,19 @@
                     <span>{{guests}} Guests</span>
                 </div>
             </div>
-            <div class="col-xs-4 col-sm-4 col-md-4">
+            <div class="col-xs-3 col-sm-3 col-md-3">
 
             </div>
         </div>
         <div class="row">
-<div class="col-xs-4 col-sm-4 col-md-4"></div>
-            <div class="panel col-xs-4 col-sm-4 col-md-4" id="availableRooms">
+<div class="col-xs-3 col-sm-3 col-md-3"></div>
+            <div class="panel col-xs-6 col-sm-6 col-md-6" id="availableRooms">
                 <h4>Available Rooms:</h4>
                 <div v-for="room in rooms">
                     <span class="action" @click="joinRoom(room)">{{room}}</span>
                 </div>
             </div>
-            <div class="col-xs-4 col-sm-4 col-md-4"></div>
+            <div class="col-xs-3 col-sm-3 col-md-3"></div>
         </div>
     </div>
 
@@ -89,10 +89,10 @@
         text-align: center;
     }
 #currentRoom {
-    margin-left: -90px;
+    
 }
 #availableRooms {
-    margin-left: -90px;
+    
 }
     
 </style>
