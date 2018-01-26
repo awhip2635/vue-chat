@@ -8,7 +8,7 @@
 					<form @submit.prevent="login">
 						<div class="col-xs-3 col-sm-3 col-md-3">
 						</div>
-						<div class="form-group col-xs-6">
+						<div v-if="currentRoom" class="form-group col-xs-6">
 							<input type="text" maxlength="12" class="form-control input-lg text-center" placeholder="Name" v-model="name">
 	
 	

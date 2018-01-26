@@ -8,7 +8,7 @@ import store from './store'
 
 // import "vue-wysiwyg/dist/vueWysiwyg.css"
 // Vue.use(wysiwyg, {})
-Vue.use(VueSocketio, '//just-something.herokuapp.com');
+Vue.use(VueSocketio, 'http://just-something.herokuapp.com/');
 // Vue.use(VueSocketio, '192.168.0.32:3000');
 
 // 
