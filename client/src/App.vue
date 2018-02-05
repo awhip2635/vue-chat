@@ -28,7 +28,7 @@
 					</div>
 				</div>
 				<form v-if="joined" @submit.prevent="send">
-					<textarea id="message-textarea" @keydown="inputHandler" maxlength="140" type="text" placeholder="Enter message..." v-model="message"></textarea>
+					<textarea id="message-textarea" @keydown="inputHandler" maxlength="auto" type="text" placeholder="Enter message..." v-model="message"></textarea>
 					<div class="text-center">
 						<button class="btn btn-primary btn-lg" type="button" @click="leave">Leave Chat</button>
 						<button class="btn btn-primary btn-lg" type="button" @click="send">Submit</button>
@@ -41,6 +41,7 @@
 					<button class="btn btn-primary btn-lg" type="button" @click="clearMessages">Clear Messages</button>
 				</div>
 			</div>
+			<br>
 			<div v-if="!joined" class="row">
 				<form @submit.prevent="login">
 			
@@ -199,7 +200,7 @@
 		border-radius: 6px;
 		padding: 10px;
 		margin-bottom: 10px;
-		max-height: 500px;
+		max-height: 90px;
 		overflow-y: auto;
 		overflow-x: hidden;
 		max-width: 75vw;
@@ -228,6 +229,8 @@
 		width: 80%;
 		max-width: 100%;
 		max-height: 100px;
+		overflow-y: auto;
+
 	}
 
 	img {
