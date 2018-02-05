@@ -2,10 +2,9 @@
     <div class="sidebar">
         <h1> Welcome to Sockets Chatroom!</h1>
         <div class="row">
-            <div class="col-xs-3 col-sm-3 col-md-3">
-            </div>
-            <div id="currentRoom" class="col-xs-6 col-sm-6 col-md-6">
-                <h3>Current Room:</h3>
+            
+            <div id="currentRoom" class="col-xs-12 col-sm-12 col-md-12">
+                <h2>Current Room:</h2>
                 <h4>{{currentRoom || 'none'}}</h4>
                 <br>
                 <div v-if="currentRoom">
@@ -15,20 +14,18 @@
                     <span>{{guests}} Guest(s) within this room</span>
                 </div>
             </div>
-            <div class="col-xs-3 col-sm-3 col-md-3">
-
-            </div>
+            
         </div>
         <div class="row">
-            <div class="col-xs-12 col-sm-3 col-md-3"></div>
-            <div class="col-xs-12 col-sm-6 col-md-6 panel" id="availableRooms">
-                <h4 v-if="currentRoom">Available Rooms:</h4>
-                <h4 v-else>Please select a chatroom</h4>
+            
+            <div class="col-xs-12 col-sm-12 col-md-12 panel" id="availableRooms">
+                <h2 v-if="currentRoom">Available Rooms:</h2>
+                <h2 v-else>Please select a chatroom</h2>
                 <div v-for="room in rooms">
                     <span class="action" @click="joinRoom(room)">{{room}}</span>
                 </div>
             </div>
-            <div class="col-xs-12 col-sm-3 col-md-3"></div>
+            
         </div>
     </div>
 
@@ -85,8 +82,8 @@
 </script>
 <style>
     .panel {
-        background-color: burlywood;
-        opacity: .65;
+        background-color: pink;
+        
         
     }
 

@@ -1,60 +1,64 @@
 <template>
 	<div id="app">
-		<div class="container">
-			
-			
-			<sidebar></sidebar>
-				<div class="row">
-					<form @submit.prevent="login">
-						<div class="col-xs-3 col-sm-3 col-md-3">
-						</div>
-						<div v-if="currentRoom" class="form-group col-xs-6">
-							<input type="text" maxlength="12" class="form-control input-lg text-center" placeholder="Name" v-model="name">
-	
-	
-							<button class="btn btn-primary btn-lg">Login Chat</button>
-						</div>
-						<div class="col-xs-3 col-sm-3 col-md-3">
-	
-						</div>
-	
-					</form>
-				</div>
-			
+		<div class="container-fluid">
 			<div class="row">
-				
-					<div v-if="currentRoom && !joined" class="text-center">
-					</div>
-					<div v-if="currentRoom">
-						<div class="chat">
-							<div class="row" v-for="item in messages">
-								<div class="col-sm-2 text-right">
-									<span class="name">{{ item.user }}</span>
-								</div>
-								<div class="col-sm-10">
-									<span class="message" v-html="item.message"></span>
-								</div>
-							</div>
+				<div class="col-xs-12 col-sm-12 col-md-12">
+
+					<sidebar></sidebar>
+
+				</div>
+
+			</div>
+
+
+			
+			
+			
+			<div v-if="currentRoom && !joined" class="text-center">
+			</div>
+			<div v-if="currentRoom">
+				<div class="chat">
+					<div class="row" v-for="item in messages">
+						<div class="col-sm-2 text-right">
+							<span class="name">{{ item.user }}</span>
 						</div>
-						<form v-if="joined" @submit.prevent="send">
-							<textarea id="message-textarea" @keydown="inputHandler" maxlength="140" type="text" placeholder="Enter message..." v-model="message"></textarea>
-							<div class="text-center">
-								<button class="btn btn-primary btn-lg" type="button" @click="leave">Leave Chat</button>
-								<button class="btn btn-primary btn-lg" type="button" @click="send">Submit</button>
-								<button class="btn btn-primary btn-lg" type="button" @click="sendImg">Submit-Img</button>
-								<button class="btn btn-primary btn-lg" type="button" @click="sendLink">Submit-Link</button>
-							</div>
-						</form>
-						<div class="text-center">
-							<button class="btn btn-primary btn-lg" type="button" @click="leave">Leave Room</button>
-							<button class="btn btn-primary btn-lg" type="button" @click="clearMessages">Clear Messages</button>
+						<div class="col-sm-10">
+							<span class="message" v-html="item.message"></span>
 						</div>
 					</div>
+				</div>
+				<form v-if="joined" @submit.prevent="send">
+					<textarea id="message-textarea" @keydown="inputHandler" maxlength="140" type="text" placeholder="Enter message..." v-model="message"></textarea>
+					<div class="text-center">
+						<button class="btn btn-primary btn-lg" type="button" @click="leave">Leave Chat</button>
+						<button class="btn btn-primary btn-lg" type="button" @click="send">Submit</button>
+						<button class="btn btn-primary btn-lg" type="button" @click="sendImg">Submit-Img</button>
+						<button class="btn btn-primary btn-lg" type="button" @click="sendLink">Submit-Link</button>
+					</div>
+				</form>
+				<div class="text-center">
+					<button class="btn btn-primary btn-lg" type="button" @click="leave">Leave Room</button>
+					<button class="btn btn-primary btn-lg" type="button" @click="clearMessages">Clear Messages</button>
 				</div>
 			</div>
+			<div v-if="!joined" class="row">
+				<form @submit.prevent="login">
+			
+					<div v-if="currentRoom" class="form-group col-xs-12 col-sm-12 col-md-12">
+						<input type="text" maxlength="12" class="form-control input-lg text-center" placeholder="Name" v-model="name">
+			
+			
+						<button class="btn btn-primary btn-lg">Login Chat</button>
+					</div>
+			
+			
+				</form>
+			</div>
 		</div>
+		
 	</div>
-	</div>
+</div>
+</div>
 </template>
 
 <script>
@@ -156,7 +160,7 @@
 		cursor: pointer;
 	}
 </style>
-<style >
+<style>
 	@import url('https://fonts.googleapis.com/css?family=Kanit');
 	#app {
 		font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -164,8 +168,11 @@
 		-moz-osx-font-smoothing: grayscale;
 		text-align: center;
 		color: #2c3e50;
-		margin-top: 60px;
+		
 		font-family: 'Kanit', sans-serif;
+		background-image: url('http://thechronicleherald.ca/sites/default/files/Tie%20Dye_1.jpg?1409833421');
+		background-size: cover;
+		height: 100vh;
 	}
 
 	h1,
