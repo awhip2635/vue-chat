@@ -200,7 +200,7 @@
 		border-radius: 6px;
 		padding: 10px;
 		margin-bottom: 10px;
-		max-height: 90px;
+		max-height: 95px;;
 		overflow-y: auto;
 		overflow-x: hidden;
 		max-width: 75vw;
